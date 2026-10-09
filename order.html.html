@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サーマルロールペーパー ご注文フォーム</title>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --accent-color: #0066cc;
+            --border-color: #dee2e6;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+        .notice-banner {
+            background: #e7f5ff;
+            border: 1px solid #bae8ff;
+            color: #004085;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        h1 {
+            font-size: 1.25rem;
+            margin-top: 0;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.05rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        textarea {
+            height: 90px;
+            resize: vertical;
+        }
+        .product-row {
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+            position: relative;
+        }
+        .product-info-box {
+            margin-top: 10px;
+            margin-bottom: 14px;
+            background: #f1f3f5;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--accent-color);
+        }
+        .info-title {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        .info-desc {
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.4;
+        }
+        .btn-add-more {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .btn-add-more:hover {
+            background-color: #5a6268;
+        }
+        .btn-remove {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            float: right;
+            margin-top: -5px;
+        }
+        .payment-option {
+            display: block;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            background: #fff;
+        }
+        .payment-option input {
+            margin-right: 10px;
+        }
+        /* 請求書の詳細条件ボックス（初期は非表示） */
+        #invoiceTermsBox {
+            display: none;
+            margin-top: 10px;
+            margin-left: 24px;
+            padding: 12px;
+            background: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+        .invoice-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            margin-top: 10px;
+        }
+        .price-breakdown {
+            font-size: 0.95rem;
+            color: #555;
+            margin-top: 15px;
+            text-align: right;
+            line-height: 1.6;
+        }
+        .total-box {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+            color: #d9534f;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 10px;
+        }
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover {
+            background-color: #004999;
+        }
+        .note {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+        /* 完了画面用スタイル */
+        #thankYouMessage {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        #thankYouMessage h2 {
+            color: #2b8a3e;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            border: none;
+        }
+        #thankYouMessage p {
+            color: #555;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- ご購入ありがとうございました 完了画面（初期は非表示） -->
+    <div id="thankYouMessage" class="card">
+        <h2>ご購入ありがとうございました！</h2>
+        <p>ご注文内容の送信が完了いたしました。<br>内容を確認次第、順次対応させていただきます。</p>
+        <p style="font-size: 0.85rem; color: #888; margin-top: 20px;">確認メールをお送りしておりますのでご確認ください。</p>
+    </div>
+
+    <!-- 注文フォーム本体 -->
+    <div id="orderFormContainer">
+        <div class="notice-banner">
+            <strong>【ご案内】</strong><br>
+            クレジットカード決済をご希望の方は、元のショップ（Squareサイト）からもご購入いただけます。銀行振込・請求書払いをご希望の方はこちらのフォームからご注文ください。
+        </div>
+
+        <form action="https://formspree.io/f/mwlvoywq" method="POST" onsubmit="handleFormSubmit(event)">
+            
+            <div class="card">
+                <h1>サーマルロールペーパー ご注文フォーム</h1>
+                
+                <!-- 商品選択エリア -->
+                <div id="productContainer" style="margin-top: 20px;">
+                    <div class="product-row" id="row-0">
+                        <div class="form-group">
+                            <label>商品選択</label>
+                            <select class="product-select" onchange="updateProductDisplay(this); calcTotal();">
+                                <option value="A-01" data-price="12000" data-shipping="1500" data-name="【A-01】サーマルロールペーパー 58mm×80mm (80巻/箱)" data-title="【A-01】サーマルロールペーパー 58mm×80mm (芯有り/80巻入り)" data-desc="サイズ: 58mm×80mm / 長さ63m / 芯有り / POS・レジ用 / 保存年数: 5年 / 5巻黒ポリ×16本 (80巻/箱) / 日本ロール社製">【A-01】58mm×80mm (80巻/箱・芯あり) - 12,000円</option>
+                                <option value="A-02" data-price="36000" data-shipping="0" data-name="【A-02】サーマルロールペーパー まとめ買い3箱セット (240巻)" data-title="【A-02】58mm×80mm まとめ買い3箱セット (240巻)" data-desc="サイズ: 58mm×80mm / 長さ63m / 芯有り / POS用 / 保存年数: 5年 / 80巻×3箱 (240巻) / 日本ロール社製 【送料無料】">【A-02】58mm×80mm まとめ買い3箱セット (240巻) - 36,000円【送料無料】</option>
+                                <option value="A-03" data-price="11250" data-shipping="1500" data-name="【A-03】サーマルロールペーパー 80mm×80mm (50巻/箱)" data-title="【A-03】サーマルロールペーパー 80mm×80mm (芯有り/50巻入り)" data-desc="サイズ: 80mm×80mm / 長さ63m / 芯有り / キッチン・デリバリー用 / 保存年数: 5年 / 2巻黒ポリ×25本 (50巻/箱) / 日本ロール社製">【A-03】キッチン用 80mm×80mm (50巻/箱) - 11,250円</option>
+                                <option value="A-04" data-price="33750" data-shipping="0" data-name="【A-04】サーマルロールペーパー 80mm×80mm (150巻セット)" data-title="【A-04】キッチン・デリバリー用 80mm×80mm (150巻セット)" data-desc="サイズ: 80mm×80mm / 長さ63m / 芯有り / キッチン・デリバリー用 / 保存年数: 5年 / 2巻黒ポリ×25本 (150巻セット) / 日本ロール社製 【送料無料】">【A-04】キッチン用 80mm×80mm (150巻セット) - 33,750円【送料無料】</option>
+                                <option value="A-05" data-price="3480" data-shipping="800" data-name="【A-05】東芝TEC純正 58mm×80mm 芯なし (20巻)" data-title="【A-05】東芝TEC純正 58mm×80mm 芯なし (20巻)" data-desc="サイズ: 幅58×外径80×芯内径20mm / 芯なし / メーカー純正ロールペーパー (58R-80TR-Z) / 保存年数: 7年 / 入数: 20巻入 / 東芝テック">【A-05】東芝TEC純正 58mm×80mm 芯なし (20巻) - 3,480円</option>
+                                <option value="A-06" data-price="3520" data-shipping="800" data-name="【A-06】東芝TEC純正 58mm×80mm 芯あり (20巻)" data-title="【A-06】東芝TEC純正 58mm×80mm 芯あり (20巻)" data-desc="サイズ: 幅58×外径80×芯内径18mm / 芯あり / メーカー純正ロールペーパー (58R-80TR-ZC) / 保存年数: 7年 / 入数: 20巻入 / 東芝テック">【A-06】東芝TEC純正 58mm×80mm 芯あり (20巻) - 3,520円</option>
+                                <option value="A-07" data-price="13920" data-shipping="1500" data-name="【A-07】東芝TEC純正 58mm×80mm 芯なし 4箱80巻" data-title="【A-07】東芝TEC純正 58mm×80mm 芯なし 4箱80巻" data-desc="サイズ: 幅58×外径80×芯内径20mm / 芯なし / 保存年数: 7年 / 入数: 20巻×4箱 (計80巻) / 東芝テック純正ロールペーパー (58R-80TR-Z)">【A-07】東芝TEC純正 58mm×80mm 芯なし 4箱80巻 - 13,920円</option>
+                                <option value="A-08" data-price="27840" data-shipping="0" data-name="【A-08】東芝TEC純正 58mm×80mm 芯なし 2箱(160巻)" data-title="【A-08】東芝TEC純正 58mm×80mm 芯なし 2箱(160巻)" data-desc="サイズ: 幅58×外径80×芯内径20mm / 芯なし / 保存年数: 7年 / 入数: 2箱セット(計160巻) / 東芝テック純正ロールペーパー (58R-80TR-Z) 【送料無料】">【A-08】東芝TEC純正 58mm×80mm 芯なし 2箱(160巻) - 27,840円【送料無料】</option>
+                                <option value="A-09" data-price="14080" data-shipping="1500" data-name="【A-09】東芝TEC純正 58mm×80mm 芯あり 4箱80巻" data-title="【A-09】東芝TEC純正 58mm×80mm 芯あり 4箱80巻" data-desc="サイズ: 幅58×外径80×芯内径18mm / 芯あり / 保存年数: 7年 / 入数: 20巻×4箱 (計80巻) / 東芝テック純正ロールペーパー (58R-80TR-ZC)">【A-09】東芝TEC純正 58mm×80mm 芯あり 4箱80巻 - 14,080円</option>
+                                <option value="A-10" data-price="28160" data-shipping="0" data-name="【A-10】東芝TEC純正 58mm×80mm 芯あり 2箱(160巻)" data-title="【A-10】東芝TEC純正 58mm×80mm 芯あり 2箱(160巻)" data-desc="サイズ: 幅58×外径80×芯内径18mm / 芯あり / 保存年数: 7年 / 入数: 2箱セット(計160巻) / 東芝テック純正ロールペーパー (58R-80TR-ZC) 【送料無料】">【A-10】東芝TEC純正 58mm×80mm 芯あり 2箱(160巻) - 28,160円【送料無料】</option>
+                                <option value="A-11" data-price="13920" data-shipping="1500" data-name="【A-11】東芝TEC純正 58mm×80mm 芯なし (80巻/箱)" data-title="【A-11】東芝TEC純正 58mm×80mm 芯なし (80巻/箱)" data-desc="サイズ: 幅58×外径80×芯内径20mm / 芯なし / 保存年数: 7年 / 入数: 5巻黒ポリ×16本 (80巻/箱) / 東芝テック純正ロールペーパー (58R-80TR-Z)">【A-11】東芝TEC純正 58mm×80mm 芯なし (80巻/箱) - 13,920円</option>
+                                <option value="A-12" data-price="27840" data-shipping="0" data-name="【A-12】東芝TEC純正 58mm×80mm 芯なし 2箱(160巻)" data-title="【A-12】東芝TEC純正 58mm×80mm 芯なし 2箱(160巻)" data-desc="サイズ: 幅58×外径80×芯内径20mm / 芯なし / 保存年数: 7年 / 入数: 5巻黒ポリ×16本 2箱(計160巻) / 東芝テック純正ロールペーパー (58R-80TR-Z) 【送料無料】">【A-12】東芝TEC純正 58mm×80mm 芯なし 2箱(160巻) - 27,840円【送料無料】</option>
+                                <option value="A-13" data-price="14080" data-shipping="1500" data-name="【A-13】東芝TEC純正 58mm×80mm 芯あり (80巻/箱)" data-title="【A-13】東芝TEC純正 58mm×80mm 芯あり (80巻/箱)" data-desc="サイズ: 幅58×外径80×芯内径18mm / 芯あり / 保存年数: 7年 / 入数: 5巻黒ポリ×16本 (80巻/箱) / 東芝テック純正ロールペーパー (58R-80TR-ZC)">【A-13】東芝TEC純正 58mm×80mm 芯あり (80巻/箱) - 14,080円</option>
+                                <option value="A-14" data-price="28160" data-shipping="0" data-name="【A-14】東芝TEC純正 58mm×80mm 芯あり 2箱(160巻)" data-title="【A-14】東芝TEC純正 58mm×80mm 芯あり 2箱(160巻)" data-desc="サイズ: 幅58×外径80×芯内径18mm / 芯あり / 保存年数: 7年 / 入数: 5巻黒ポリ×16本 2箱(計160巻) / 東芝テック純正ロールペーパー (58R-80TR-ZC) 【送料無料】">【A-14】東芝TEC純正 58mm×80mm 芯あり 2箱(160巻) - 28,160円【送料無料】</option>
+                                <option value="A-15" data-price="2960" data-shipping="800" data-name="【A-15】東芝TEC純正 クレジット端末用 58mm×40mm (20巻)" data-title="【A-15】東芝TEC純正 クレジット端末用 58mm×40mm (20巻)" data-desc="サイズ: 58mm×40mm / 長さ17m / 芯有り / クレジット決済端末・小型電子レジスター等 / 保存年数: 5年 / 入数: 20巻 / 東芝TEC純正">【A-15】東芝TEC純正 クレジット端末用 58mm×40mm (20巻) - 2,960円</option>
+                                <option value="A-16" data-price="29600" data-shipping="1500" data-name="【A-16】東芝TEC純正 クレジット端末用 58mm×40mm (200巻/箱)" data-title="【A-16】東芝TEC純正 クレジット端末用 58mm×40mm (200巻/箱)" data-desc="サイズ: 58mm×40mm / 長さ17m / 芯有り / クレジット決済端末・小型電子レジスター等 / 保存年数: 5年 / 入数: 20巻×10箱 (計200巻) / 東芝TEC純正">【A-16】東芝TEC純正 クレジット端末用 58mm×40mm (200巻/箱) - 29,600円</option>
+                                <option value="A-17" data-price="59200" data-shipping="0" data-name="【A-17】東芝TEC純正 クレジット端末用 58mm×40mm 2箱(400巻)" data-title="【A-17】東芝TEC純正 クレジット端末用 58mm×40mm 2箱(400巻)" data-desc="サイズ: 58mm×40mm / 長さ17m / 芯有り / クレジット決済端末・小型電子レジスター等 / 保存年数: 5年 / 入数: 20巻×10箱 2箱(計400巻) / 東芝TEC純正 【送料無料】">【A-17】東芝TEC純正 クレジット端末用 58mm×40mm 2箱(400巻) - 59,200円【送料無料】</option>
+                            </select>
+                        </div>
+
+                        <!-- 選択した商品の詳細情報ボックス -->
+                        <div class="product-info-box">
+                            <div class="info-title"></div>
+                            <div class="info-desc"></div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>数量（箱数・セット数）</label>
+                            <input type="number" class="product-qty" value="1" min="1" max="50" onchange="calcTotal()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 別種類を追加するボタン -->
+                <button type="button" class="btn-add-more" onclick="addProductRow()">＋ 別の商品も追加する</button>
+
+                <div class="price-breakdown">
+                    商品小計: <span id="subtotalPrice">12,000</span> 円<br>
+                    送料合計: <span id="shippingFee">1,500</span> 円
+                </div>
+                <div class="total-box">
+                    ご請求合計: <span id="totalPrice">13,500</span> 円 (税込)
+                </div>
+                
+                <!-- Formspree送信用隠しフィールド -->
+                <input type="hidden" name="order_details" id="hiddenOrderDetails">
+                <input type="hidden" name="total_amount" id="hiddenTotal" value="13500">
+            </div>
+
+            <div class="card">
+                <h2>お支払い方法の選択</h2>
+                
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="銀行振込（前払い）" checked onchange="toggleInvoiceTerms()">
+                    <strong>銀行振込（前払い）</strong><br>
+                    <span class="note">ご注文後、ご登録メールアドレス宛に振込先口座をご案内いたします。ご入金確認後の発送となります。</span>
+                </label>
+
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="請求書払い" onchange="toggleInvoiceTerms()">
+                    <strong>請求書払い（メール送付）</strong><br>
+                    <span class="note">ご登録いただいたメールアドレス宛に請求書（PDF）をお送りいたします。</span>
+                </label>
+
+                <!-- 請求書払いが選ばれたときだけ現れる詳細選択エリア＆注意書き -->
+                <div id="invoiceTermsBox">
+                    <label style="margin-bottom: 4px; font-size: 0.8rem; color: #333;">ご希望の締め日・お支払い条件をお選びください：</label>
+                    <select name="invoice_terms" style="margin-bottom: 10px;">
+                        <option value="月末締め 翌月末払い">月末締め 翌月末払い</option>
+                        <option value="月末締め 翌月10日払い">月末締め 翌月10日払い</option>
+                        <option value="月末締め 翌月15日払い">月末締め 翌月15日払い</option>
+                        <option value="月末締め 翌月20日払い">月末締め 翌月20日払い</option>
+                    </select>
+
+                    <div class="invoice-warning">
+                        請求書払いは法人の方向けのサービスとなります（個人事業主様も可）。<br>
+                        お支払期限を過ぎてもご入金が確認できない場合、次回以降のご注文をお断りさせていただく場合がございます。<br>
+                        期限を過ぎた場合、商事法定利率に基づく遅延損害金をご請求させていただくことがございます。
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>お届け先・ご連絡先情報</h2>
+                
+                <div class="form-group">
+                    <label>会社名 または 店舗名</label>
+                    <input type="text" name="company" required placeholder="例：〇〇ストア">
+                </div>
+
+                <div class="form-group">
+                    <label>ご担当者様のお名前</label>
+                    <input type="text" name="name" required placeholder="例：山田 太郎">
+                </div>
+
+                <div class="form-group">
+                    <label>メールアドレス</label>
+                    <input type="email" name="email" required placeholder="example@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label>お電話番号</label>
+                    <input type="tel" name="tel" required placeholder="090-0000-0000">
+                </div>
+
+                <div class="form-group">
+                    <label>お届け先ご住所</label>
+                    <textarea name="address" required placeholder="〒000-0000 〇〇県..."></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">この内容で注文を送信する</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    let rowIdx = 1;
+
+    // 請求書払い選択時の条件ボックス表示切り替え
+    function toggleInvoiceTerms() {
+        const invoiceRadio = document.querySelector('input[name="payment"][value="請求書払い"]');
+        const termsBox = document.getElementById('invoiceTermsBox');
+        if (invoiceRadio && invoiceRadio.checked) {
+            termsBox.style.display = 'block';
+        } else {
+            termsBox.style.display = 'none';
+        }
+    }
+
+    function updateProductDisplay(selectElement) {
+        const selectedOpt = selectElement.options[selectElement.selectedIndex];
+        const titleText = selectedOpt.getAttribute('data-title');
+        const descText = selectedOpt.getAttribute('data-desc');
+        
+        const row = selectElement.closest('.product-row');
+        const titleTag = row.querySelector('.info-title');
+        const descTag = row.querySelector('.info-desc');
+
+        titleTag.textContent = titleText;
+        descTag.textContent = descText;
+    }
+
+    function addProductRow() {
+        const container = document.getElementById('productContainer');
+        const firstRow = container.querySelector('.product-row');
+        const newRow = firstRow.cloneNode(true);
+        
+        newRow.id = 'row-' + rowIdx++;
+        newRow.querySelector('.product-qty').value = 1;
+        
+        if (!newRow.querySelector('.btn-remove')) {
+            const deleteBtn = document.createElement('button');
+            deleteBtn.type = 'button';
+            deleteBtn.className = 'btn-remove';
+            deleteBtn.textContent = 'この商品を削除';
+            deleteBtn.onclick = function() {
+                newRow.remove();
+                calcTotal();
+            };
+            newRow.querySelector('.form-group').appendChild(deleteBtn);
+        }
+        
+        container.appendChild(newRow);
+        updateProductDisplay(newRow.querySelector('.product-select'));
+        calcTotal();
+    }
+
+    function calcTotal() {
+        const rows = document.querySelectorAll('.product-row');
+        let subtotal = 0;
+        let maxShipping = 0;
+        let hasPaidShipping = false;
+
+        rows.forEach(row => {
+            const select = row.querySelector('.product-select');
+            const qtyInput = row.querySelector('.product-qty');
+            const selectedOpt = select.options[select.selectedIndex];
+
+            const price = parseInt(selectedOpt.getAttribute('data-price')) || 0;
+            const shipping = parseInt(selectedOpt.getAttribute('data-shipping')) || 0;
+            const qty = parseInt(qtyInput.value) || 1;
+
+            subtotal += price * qty;
+            if (shipping > 0) {
+                hasPaidShipping = true;
+                if (shipping > maxShipping) {
+                    maxShipping = shipping;
+                }
+            }
+        });
+
+        const finalShipping = hasPaidShipping ? maxShipping : 0;
+        const total = subtotal + finalShipping;
+
+        document.getElementById('subtotalPrice').textContent = subtotal.toLocaleString();
+        document.getElementById('shippingFee').textContent = finalShipping.toLocaleString();
+        document.getElementById('totalPrice').textContent = total.toLocaleString();
+        document.getElementById('hiddenTotal').value = total + ' 円';
+    }
+
+    // 非同期でFormspreeに送信し、ページ遷移せずに「ご購入ありがとうございました」を表示する処理
+    async function handleFormSubmit(event) {
+        event.preventDefault();
+        
+        let details = "";
+        const rows = document.querySelectorAll('.product-row');
+
+        rows.forEach((row, index) => {
+            const select = row.querySelector('.product-select');
+            const qtyInput = row.querySelector('.product-qty');
+            const selectedOpt = select.options[select.selectedIndex];
+
+            const name = selectedOpt.getAttribute('data-name');
+            const price = parseInt(selectedOpt.getAttribute('data-price')) || 0;
+            const qty = parseInt(qtyInput.value) || 1;
+
+            details += `・【商品${index + 1}】${name} / 単価:${price}円 × ${qty}個 = 小計:${price * qty}円\n`;
+        });
+
+        const subtotal = document.getElementById('subtotalPrice').textContent;
+        const shipping = document.getElementById('shippingFee').textContent;
+        const total = document.getElementById('totalPrice').textContent;
+
+        details += `\n商品小計: ${subtotal} 円\n`;
+        details += `送料合計: ${shipping} 円\n`;
+        details += `ご請求合計: ${total} 円 (税込)\n`;
+
+        document.getElementById('hiddenOrderDetails').value = details;
+
+        const form = event.target;
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                // フォームを非表示にして「ご購入ありがとうございました」を表示
+                document.getElementById('orderFormContainer').style.display = 'none';
+                document.getElementById('thankYouMessage').style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                alert('送信に失敗しました。時間をおいて再度お試しください。');
+            }
+        } catch (error) {
+            alert('ネットワークエラーが発生しました。');
+        }
+    }
+
+    window.onload = function() {
+        const firstSelect = document.querySelector('.product-select');
+        if (firstSelect) {
+            updateProductDisplay(firstSelect);
+        }
+        calcTotal();
+        toggleInvoiceTerms();
+    };
+</script>
+
+</body>
+</html>
